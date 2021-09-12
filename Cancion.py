@@ -8,7 +8,7 @@ import essentia.standard as es
 class Cancion(): 
     def __init__(self, nam) :
         self.name = nam
-        self.sr =  48000.04
+        self.sr =  48000.0
         self.y, self.sr = librosa.load(self.name, sr=self.sr)
         self.frameSize = 2048
         self.hopSize = 1024
