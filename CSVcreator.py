@@ -18,16 +18,21 @@ class CSVcreator():
 
     def createCanciones(self):
         print("[--INFO--] Leyendo directorios y obteniendo características de las canciones...")
+        
         carpetasMusic = os.listdir(self.songsDirectory)
         for dir in carpetasMusic:
             listNameCanciones = [arch.name for arch in os.scandir(self.songsDirectory+"/"+dir) if arch.is_file()]
             for c in listNameCanciones:
-                print(c)
-                can = Cancion(self.songsDirectory + "/" + dir + "/" + c)
-                can.setGenero(dir)
-                self.cancionPool[c] = can
+                try:
+                    can = Cancion(self.songsDirectory + "/" + dir + "/" + c)
+                    can.setGenero(dir)
+                    self.cancionPool[c] = can
+                    print("[--INFO--] OK -- OK ", c)
+                except:
+                    print("[--INFO--] No fue posible obtener características de: ", c)
         print("[--INFO--] Características obtenidas.")
-
+        
+            
     
 
     def storeCSV(self):
