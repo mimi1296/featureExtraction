@@ -67,11 +67,9 @@ class Cancion():
             self.mfcc = json_data["lowlevel"]["mfcc"]["mean"]
             self.edmaKey = json_data["tonal"]["key_edma"]["key"]
             self.edmaScale = json_data["tonal"]["key_edma"]["scale"]
-            print(json_data["lowlevel"]["spectral_centroid"]["mean"])
+            
             os.remove(resultFileName)
 
-            
-            print(json_data["lowlevel"]["zerocrossingrate"]["mean"])
         else: 
             print("linux")
 
