@@ -1,7 +1,7 @@
 #CSVcreator
 
-from Cancion import Cancion
-import  os, csv
+from Cancion import Cancion, os
+import  csv
 import time 
 
 
@@ -20,6 +20,8 @@ class CSVcreator():
         print("[--INFO--] Leyendo directorios y obteniendo características de las canciones...")
         
         carpetasMusic = os.listdir(self.songsDirectory)
+        #print(carpetasMusic)
+        
         with open(self.CVSName, 'w', newline='') as  featuresCSV:
             writer = csv.writer(featuresCSV)
             writer.writerow(["Name", "zcr", "flt", "lds", "alds", "strpk", "nrg", "cntr", "flu", "rof", "entr", "danc", "bpm", "tufre", "ptch", "tmpo", "edmk", "edm", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5", "gen"])
@@ -28,6 +30,7 @@ class CSVcreator():
                 for c in listNameCanciones:
                     try:
                         can = Cancion(self.songsDirectory + "/" + dir + "/" + c)
+                        print("Se crea canción")
                         can.setGenero(dir)
                         writer.writerow([c, str(can.zcr), str(can.flatness), str(can.loudness), str(can.average_loudness), str(can.s_strongpeak), str(can.s_energy), str(can.s_centroid), str(can.s_flux), str(can.s_rolloff), str(can.s_entropy), str(can.danceability), str(can.rythm_bpm), str(can.tunning_freq), str(can.pitch_salience), str(can.tempo), can.edmaKey, can.edmaScale, str(can.mfcc[0]), str(can.mfcc[1]), str(can.mfcc[2]), str(can.mfcc[3]), str(can.mfcc[4]), can.genero])
                         print("[--INFO--] OK -- OK ", c)
@@ -50,7 +53,7 @@ class CSVcreator():
 
 initialTime = time.time()
 
-c = CSVcreator("../../../g/LuisOviedoPDG/music") 
+c = CSVcreator("../../../Music/WAV") 
 # Carpeta donde se encuentran las canciones organizadas por genero en 
 # directorios diferentes 
 # Ejemplo de directorios usado: 
