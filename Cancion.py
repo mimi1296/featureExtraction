@@ -42,7 +42,6 @@ class Cancion():
     def setFeatures(self):
         if os.name =='nt':
             resultFileName = "TempCancion.txt"
-            print("windows")
             os.system(r'essentia_streaming_extractor_music.exe "' + self.name + '" "'+ resultFileName +'"') #r'essentia_streaming_extractor_music.exe "'
             data = ""
             
@@ -71,7 +70,6 @@ class Cancion():
             os.remove(resultFileName)
 
         else: 
-            print("linux")
 
             features, features_frames = es.MusicExtractor(analysisSampleRate=self.sr, lowlevelFrameSize=self.frameSize, lowlevelHopSize=self.hopSize, 
                                                     lowlevelStats=['mean', 'stdev'],
@@ -101,6 +99,9 @@ class Cancion():
 
     def setGenero(self, gen):
         self.genero = gen
+
+    def getName(self):
+        return self.name
 
 #prueba
 #c = Cancion('../youtubeMusicDownloader/music/Fabricando Fantasias - Tito Nieves (video oficial) HD [1080p]-GhciBgYbA74-recortado.wav')

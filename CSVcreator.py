@@ -3,6 +3,7 @@
 from Cancion import Cancion, os
 import  csv
 import time 
+from multiprocessing.pool import ThreadPool
 
 
 class CSVcreator():
@@ -21,8 +22,26 @@ class CSVcreator():
         
         carpetasMusic = os.listdir(self.songsDirectory)
         #print(carpetasMusic)
+
+        tuples = []
+        for dir in carpetasMusic:
+            listNameCanciones = [arch.name for arch in os.scandir(self.songsDirectory+"/"+dir) if arch.is_file()]
+            for c in listNameCanciones:
+                tuples.append(tuple(map(str, [self.songsDirectory + "/" + dir + "/" + c, dir])))
+                
+        print(tuples) 
+        with ThreadPool(5) as executor:
+            results = executor.map(self.createCancion, tuples)
+
+
+            with open(self.CVSName, 'w', newline='') as  featuresCSV:
+                writer = csv.writer(featuresCSV)
+                writer.writerow(["Name", "zcr", "flt", "lds", "alds", "strpk", "nrg", "cntr", "flu", "rof", "entr", "danc", "bpm", "tufre", "ptch", "tmpo", "edmk", "edm", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5", "gen"])
+                for can in results:
+                    writer.writerow([can.getName(), str(can.zcr), str(can.flatness), str(can.loudness), str(can.average_loudness), str(can.s_strongpeak), str(can.s_energy), str(can.s_centroid), str(can.s_flux), str(can.s_rolloff), str(can.s_entropy), str(can.danceability), str(can.rythm_bpm), str(can.tunning_freq), str(can.pitch_salience), str(can.tempo), can.edmaKey, can.edmaScale, str(can.mfcc[0]), str(can.mfcc[1]), str(can.mfcc[2]), str(can.mfcc[3]), str(can.mfcc[4]), can.genero])
+
         
-        with open(self.CVSName, 'w', newline='') as  featuresCSV:
+        """ with open(self.CVSName, 'w', newline='') as  featuresCSV:
             writer = csv.writer(featuresCSV)
             writer.writerow(["Name", "zcr", "flt", "lds", "alds", "strpk", "nrg", "cntr", "flu", "rof", "entr", "danc", "bpm", "tufre", "ptch", "tmpo", "edmk", "edm", "mfcc1", "mfcc2", "mfcc3", "mfcc4", "mfcc5", "gen"])
             for dir in carpetasMusic:
@@ -35,10 +54,20 @@ class CSVcreator():
                         print("[--INFO--] OK -- OK ", c)
                     except:
                         print("[--INFO--] No fue posible obtener características de: ", c)
-        print("[--INFO--] Características obtenidas.")
+        print("[--INFO--] Características obtenidas.") """
         
             
-    
+    def createCancion(self, *args):
+        try:
+
+            can = Cancion(args[0][0])
+            can.setGenero(args[0][1])
+            print("[--INFO--] OK -- OK ", args[0][0])
+        except:
+            can = None
+            print("[--INFO--] No fue posible obtener características de: ", args[0])
+        return can
+        
 
     
         
