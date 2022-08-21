@@ -8,11 +8,13 @@ from multiprocessing.pool import ThreadPool
 
 class CSVcreator():
     def __init__(self, sDirectory):
+        initialTime = time.time()
         self.songsDirectory = sDirectory
         self.cancionPool = {}
         self.CVSName = "FeaturesObtain.csv"
         self.createCanciones()
-        
+        finalTime = time.time()
+        print("[--INFO--] El tiempo total de ejecución fue: ", finalTime-initialTime)
         print("[--INFO--] ¡¡FIN!!")
 
     
@@ -70,10 +72,6 @@ class CSVcreator():
         
 
     
-        
-
-
-initialTime = time.time()
 
 c = CSVcreator("../../../Music/WAV") 
 # Carpeta donde se encuentran las canciones organizadas por genero en 
@@ -96,6 +94,6 @@ c = CSVcreator("../../../Music/WAV")
 #https://www.youtube.com/watch?v=vmDDOFXSgAs&list=PL-Ib9oOPR7OHKLBFVkiq0F0rppCZ7YFLp YAA
 #https://www.youtube.com/watch?v=ZZcuSBouhVA&list=PL8F6B0753B2CCA128
 #https://www.youtube.com/watch?v=qfIiYBMIgJs&list=PLiy0XOfUv4hFHmPs0a8RqkDzfT-2nw7WV
-finalTime = time.time()
 
-print("[--INFO--] El tiempo total de ejecución fue: ", finalTime-initialTime)
+
+
